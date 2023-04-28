@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "elytra_trinket",
+	"version": "0.0.1",
+	"name": "Elytra Trinket",
+	"description": "A Minecraft mod that uses the Trinkets API to allow the player to equip elytra with a chestplate.",
+	"authors": [
+		{
+			"name": "Travis Martin",
+			"contact": {
+				"email": "tjmartin2003@gmail.com",
+				"homepage": "https://www.lakuna.pw/"
+			}
+		}
+	],
+	"contact": {
+		"email": "tjmartin2003@gmail.com",
+		"homepage": "https://www.lakuna.pw/",
+		"issues": "https://github.com/Lakuna/Minecraft-Elytra-Trinket/issues",
+		"sources": "https://github.com/Lakuna/Minecraft-Elytra-Trinket"
+	},
+	"license": "MIT",
+	"icon": "assets/elytra_trinket/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"pw.lakuna.elytra_trinket.MainEntrypoint"
+		],
+		"client": [
+			"pw.lakuna.elytra_trinket.ClientEntrypoint"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.14.19",
+		"fabric-api": "*",
+		"trinkets": "*",
+		"minecraft": "~1.19.4",
+		"java": ">=17"
+	}
+}
