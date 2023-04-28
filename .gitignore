@@ -1,8 +1,5 @@
 .gradle
-.settings
+.vscode
+bin
 build
 run
-.classpath
-.project
-*.launch
-bin
