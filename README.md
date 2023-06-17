@@ -1,2 +1,3 @@
 # Elytra Trinket
-A Minecraft mod that uses the Trinkets API to allow the player to equip elytra with a chestplate.
+
+A Minecraft Fabric mod that adds the Elytra to the cape slot in the Trinkets API.

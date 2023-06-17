@@ -3,12 +3,12 @@ plugins {
 	id "maven-publish"
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+version = project.version
+group = project.group
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
+base {
+	archivesName = project.id
+}
 
 repositories {
 	maven {
@@ -22,40 +22,55 @@ repositories {
 	}
 }
 
+loom {
+	splitEnvironmentSourceSets()
+
+	mods {
+		"${project.id}" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-	modImplementation "dev.emi:trinkets:${project.trinkets_version}"
-}
-
-base {
-	archivesName = project.archives_base_name
+	modImplementation "dev.emi:trinkets:${project.trinkets_api_version}"
 }
 
 processResources {
 	inputs.property "version", project.version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand "minecraft_version": project.minecraft_version,
+			"yarn_mappings": project.yarn_mappings,
+			"loader_version": project.loader_version,
+			"version": project.version,
+			"group": project.group,
+			"id": project.id,
+			"fabric_api_version": project.fabric_api_version,
+			"trinkets_api_version": project.trinkets_api_version,
+			"java_version": project.java_version
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 17
+	it.options.release = project.java_version as Integer
 }
 
 java {
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.valueOf("VERSION_${project.java_version}")
+	targetCompatibility = JavaVersion.valueOf("VERSION_${project.java_version}")
 }
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${base.archivesName.get()}" }
+		rename { "${it}_${project.id}" }
 	}
 }
 
