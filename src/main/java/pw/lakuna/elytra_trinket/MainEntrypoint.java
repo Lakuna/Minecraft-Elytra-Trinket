@@ -5,6 +5,6 @@ import net.fabricmc.api.ModInitializer;
 public class MainEntrypoint implements ModInitializer {
 	@Override
 	public void onInitialize() {
-		// TODO
+		ElytraTrinket.logger.info("Initialized Elytra Trinket (main).");
 	}
 }
