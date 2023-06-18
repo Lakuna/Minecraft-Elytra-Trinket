@@ -30,6 +30,13 @@
 			"${group}.${id}.ClientEntrypoint"
 		]
 	},
+	"mixins": [
+		"${id}.mixins.json",
+		{
+			"config": "${id}.client.mixins.json",
+			"environment": "client"
+		}
+	],
 	"depends": {
 		"fabricloader": ">=${loader_version}",
 		"fabric-api": ">=${fabric_api_version}",

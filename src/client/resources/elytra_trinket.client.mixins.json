@@ -1,0 +1,14 @@
+{
+    "required": true,
+    "minVersion": "${version}",
+    "package": "${group}.${id}.mixin.client",
+    "compatibilityLevel": "JAVA_${java_version}",
+    "mixins": [],
+    "client": [
+        "ExampleClientMixin"
+    ],
+    "server": [],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
