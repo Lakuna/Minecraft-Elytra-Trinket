@@ -1,4 +1,4 @@
-package pw.lakuna.elytra_trinket.mixin;
+package pw.lakuna.elytra_trinket.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
 import pw.lakuna.elytra_trinket.ElytraTrinket;

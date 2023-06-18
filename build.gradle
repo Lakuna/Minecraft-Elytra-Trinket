@@ -49,6 +49,14 @@ processResources {
 	}
 }
 
+processClientResources {
+	inputs.property "version", project.version
+
+	filesMatching("*.json") {
+		expand project.properties
+	}
+}
+
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = project.java_version as Integer
 }
