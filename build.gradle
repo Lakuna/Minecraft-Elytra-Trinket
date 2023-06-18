@@ -45,15 +45,7 @@ processResources {
 	inputs.property "version", project.version
 
 	filesMatching("fabric.mod.json") {
-		expand "minecraft_version": project.minecraft_version,
-			"yarn_mappings": project.yarn_mappings,
-			"loader_version": project.loader_version,
-			"version": project.version,
-			"group": project.group,
-			"id": project.id,
-			"fabric_api_version": project.fabric_api_version,
-			"trinkets_api_version": project.trinkets_api_version,
-			"java_version": project.java_version
+		expand project.properties
 	}
 }
 
