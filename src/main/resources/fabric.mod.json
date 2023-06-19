@@ -30,7 +30,6 @@
 			"${group}.${id}.ClientEntrypoint"
 		]
 	},
-	"mixins": [],
 	"depends": {
 		"fabricloader": ">=${loader_version}",
 		"fabric-api": ">=${fabric_api_version}",
