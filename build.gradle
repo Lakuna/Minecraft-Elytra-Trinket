@@ -1,6 +1,7 @@
 plugins {
 	id "fabric-loom" version "1.2-SNAPSHOT"
 	id "maven-publish"
+	id "com.modrinth.minotaur" version "2.+"
 }
 
 version = project.version
@@ -84,3 +85,17 @@ publishing {
 
 	repositories { }
 }
+
+modrinth {
+	projectId = project.modrinth_id
+	versionName = "Elytra Trinket v${project.version}"
+	uploadFile = remapJar
+	additionalFiles = [sourcesJar]
+	dependencies {
+		required.project "fabric-api"
+		required.project "trinkets"
+	}
+	syncBodyFrom = rootProject.file("README.md").text
+}
+
+tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
