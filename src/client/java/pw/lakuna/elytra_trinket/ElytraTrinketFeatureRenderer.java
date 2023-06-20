@@ -66,16 +66,12 @@ public class ElytraTrinketFeatureRenderer<T extends LivingEntity, M extends Enti
         // Get the texture of the Elytra.
         Identifier identifier = ElytraTrinketFeatureRenderer.defaultTexture;
         if (entity instanceof AbstractClientPlayerEntity abstractEntity) {
-            if (abstractEntity.canRenderElytraTexture()) {
-                Identifier elytraTexture = abstractEntity.getElytraTexture();
-                if (elytraTexture != null) {
-                    identifier = elytraTexture;
-                }
-            } else if (abstractEntity.canRenderCapeTexture() && abstractEntity.isPartVisible(PlayerModelPart.CAPE)) {
-                Identifier capeTexture = abstractEntity.getCapeTexture();
-                if (capeTexture != null) {
-                    identifier = capeTexture;
-                }
+            Identifier texture;
+            if (abstractEntity.canRenderElytraTexture() && (texture = abstractEntity.getElytraTexture()) != null) {
+                identifier = texture;
+            } else if (abstractEntity.canRenderCapeTexture() && (texture = abstractEntity.getCapeTexture()) != null
+                && abstractEntity.isPartVisible(PlayerModelPart.CAPE)) {
+                identifier = texture;
             }
         }
 
