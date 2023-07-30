@@ -86,6 +86,7 @@ publishing {
 }
 
 modrinth {
+	token = System.getenv("MODRINTH_TOKEN")
 	projectId = project.modrinth_id
 	versionName = "Elytra Trinket v${project.version}"
 	uploadFile = remapJar
