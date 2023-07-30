@@ -1,27 +1,33 @@
-name: Build
-on: [pull_request, push]
+name: Publish
+
+on:
+  release:
+    types:
+      - created
 
 jobs:
-  build:
+  publish:
+    name: Publish
+    permissions: {}
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Check-Out Repository
         uses: actions/checkout@v3
-      - name: Validate Gradle wrapper
+      - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           java-version: 17
           distribution: "microsoft"
-      - name: Make Gradle wrapper executable
+      - name: Make Gradle Wrapper Executable
         run: chmod +x ./gradlew
       - name: Build
         run: ./gradlew build
-      - name: Capture build artifacts
+      - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Artifacts
+          name: build
           path: build/libs
       - name: Upload to Modrinth
         run: ./gradlew modrinth
