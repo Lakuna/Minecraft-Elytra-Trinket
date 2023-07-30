@@ -31,3 +31,5 @@ jobs:
           path: build/libs
       - name: Upload to Modrinth
         run: ./gradlew modrinth
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
