@@ -40,6 +40,8 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 	modImplementation "dev.emi:trinkets:${project.trinkets_api_version}"
+	modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cca_version}")
+	modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${cca_version}")
 }
 
 processResources {
