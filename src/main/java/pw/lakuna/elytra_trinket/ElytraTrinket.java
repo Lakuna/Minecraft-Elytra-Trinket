@@ -69,14 +69,15 @@ public final class ElytraTrinket {
      * @returns A list of equipped Elytra trinkets.
      */
     public static List<ItemStack> getEquipped(LivingEntity entity) {
+		List<ItemStack> out = new ArrayList<ItemStack>();
+
         // Return an empty list if the trinket component isn't present.
         Optional<TrinketComponent> optional = TrinketsApi.getTrinketComponent(entity);
         if (!optional.isPresent()) {
-            return new ArrayList<ItemStack>();
+            return out;
         }
 
         // Check each trinket slot with an Elytra.
-        List<ItemStack> out = new ArrayList<ItemStack>();
         TrinketComponent trinketComponent = optional.get();
         for (Pair<SlotReference, ItemStack> pair : trinketComponent.getEquipped(Items.ELYTRA)) {
             // If the Elytra is in a cape slot, add it to the output.
