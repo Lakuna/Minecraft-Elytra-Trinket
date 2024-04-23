@@ -1,13 +1,15 @@
-name: Publish
+name: Build
 
 on:
-  release:
+  pull_request:
     types:
-      - created
+      - opened
+      - edited
+  push:
 
 jobs:
-  publish:
-    name: Publish
+  build:
+    name: Build
     permissions: {}
     runs-on: ubuntu-latest
     steps:
@@ -29,7 +31,3 @@ jobs:
         with:
           name: build
           path: build/libs
-      - name: Upload to Modrinth
-        run: ./gradlew modrinth
-        env:
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
