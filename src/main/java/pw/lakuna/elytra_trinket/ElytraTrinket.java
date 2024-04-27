@@ -20,13 +20,15 @@ import net.minecraft.world.event.GameEvent;
 public final class ElytraTrinket {
     /**
      * Makes the given entity fly if the given Elytra is usable.
+     * 
      * @param entity The entity.
-     * @param stack The Elytra.
+     * @param stack  The Elytra.
      * @param doTick Whether the Elytra should be checked on this tick.
      * @returns Whether the entity was made to fly.
      */
     private static boolean useElytraTrinket(LivingEntity entity, ItemStack stack, boolean doTick) {
-        // This method is almost functionally identical to `FabricElytraItem.useCustomElytra`.
+        // This method is almost functionally identical to
+        // `FabricElytraItem.useCustomElytra`.
         if (!ElytraItem.isUsable(stack)) {
             return false;
         }
@@ -35,7 +37,7 @@ public final class ElytraTrinket {
             return true;
         }
 
-        int nextRoll = entity.getRoll() + 1;
+        int nextRoll = entity.getFallFlyingTicks() + 1;
         World world = entity.getWorld();
         if (!world.isClient && nextRoll % 10 == 0) {
             if ((nextRoll / 10) % 2 == 0) {
@@ -49,27 +51,28 @@ public final class ElytraTrinket {
     }
 
     /** Enables flight when wearing an Elytra in a cape trinket slot. */
-	protected static void registerFlight() {
-		EntityElytraEvents.CUSTOM.register((LivingEntity entity, boolean tickElytra) -> {
-			// If an equipped Elytra is usable, fly.
-			for (ItemStack stack : ElytraTrinket.getEquipped(entity)) {
-				if (ElytraTrinket.useElytraTrinket(entity, stack, tickElytra)) {
-					return true;
-				}
-			}
+    protected static void registerFlight() {
+        EntityElytraEvents.CUSTOM.register((LivingEntity entity, boolean tickElytra) -> {
+            // If an equipped Elytra is usable, fly.
+            for (ItemStack stack : ElytraTrinket.getEquipped(entity)) {
+                if (ElytraTrinket.useElytraTrinket(entity, stack, tickElytra)) {
+                    return true;
+                }
+            }
 
-			// No usable Elytra is in a cape trinket slot.
-			return false;
-		});
-	}
+            // No usable Elytra is in a cape trinket slot.
+            return false;
+        });
+    }
 
     /**
      * Gets a list of equipped Elytra trinkets.
+     * 
      * @param entity The entity that has the Elytra equipped.
      * @returns A list of equipped Elytra trinkets.
      */
     public static List<ItemStack> getEquipped(LivingEntity entity) {
-		List<ItemStack> out = new ArrayList<ItemStack>();
+        List<ItemStack> out = new ArrayList<ItemStack>();
 
         // Return an empty list if the trinket component isn't present.
         Optional<TrinketComponent> optional = TrinketsApi.getTrinketComponent(entity);
@@ -91,6 +94,7 @@ public final class ElytraTrinket {
 
     /**
      * Returns whether the given entity is wearing an Elytra in a trinket slot.
+     * 
      * @param entity The entity to check.
      * @returns Whether the entity is wearing an Elytra in a trinket slot.
      */

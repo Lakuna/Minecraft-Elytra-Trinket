@@ -14,15 +14,16 @@ public final class ElytraTrinketClient {
     /** Disables rendering capes when wearing an Elytra in a cape trinket slot. */
     protected static void registerCapeRenderer() {
         LivingEntityFeatureRenderEvents.ALLOW_CAPE_RENDER.register(
-            (AbstractClientPlayerEntity player) -> !ElytraTrinket.isEquipped(player));
+                (AbstractClientPlayerEntity player) -> !ElytraTrinket.isEquipped(player));
     }
 
     /** Enables rendering Elytra when wearing an Elytra in a cape trinket slot. */
     protected static void registerRenderer() {
         LivingEntityFeatureRendererRegistrationCallback.EVENT.register(
-			(EntityType<? extends LivingEntity> entityType, LivingEntityRenderer<?, ?> entityRenderer,
-			RegistrationHelper registrationHelper, Context context) -> {
-			registrationHelper.register(new ElytraTrinketFeatureRenderer<>(entityRenderer, context.getModelLoader()));
-		});
+                (EntityType<? extends LivingEntity> entityType, LivingEntityRenderer<?, ?> entityRenderer,
+                        RegistrationHelper registrationHelper, Context context) -> {
+                    registrationHelper
+                            .register(new ElytraTrinketFeatureRenderer<>(entityRenderer, context.getModelLoader()));
+                });
     }
 }
