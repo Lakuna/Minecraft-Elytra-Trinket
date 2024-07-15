@@ -48,7 +48,7 @@ dependencies {
 	["fabric-entity-events-v1", "fabric-rendering-v1"].each {
 		module -> modImplementation(fabricApi.module(module, project.fabric_api_version))
 	}
-	modLocalRuntime "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}" // Required for testing because Trinkets expects "fabric" to be present.
+	modLocalRuntime "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}" // Required for testing because Trinkets expects "fabric-api" to be present.
 
 	// Trinkets
 	modImplementation "dev.emi:trinkets:${project.trinkets_api_version}"

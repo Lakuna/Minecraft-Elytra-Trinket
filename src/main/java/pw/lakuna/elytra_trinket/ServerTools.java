@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketsApi;
@@ -12,19 +15,21 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
 /** Server- and client-side methods for Elytra Trinket. */
-public final class ElytraTrinket {
+public final class ServerTools {
     /**
-     * Makes the given entity fly if the given Elytra is usable.
+     * Make the given entity fly if the given Elytra is usable.
      * 
      * @param entity The entity.
      * @param stack  The Elytra.
-     * @param doTick Whether the Elytra should be checked on this tick.
-     * @returns Whether the entity was made to fly.
+     * @param doTick Whether or not the Elytra should be checked on this tick.
+     * @returns Whether or not the entity was made to fly.
      */
     private static boolean useElytraTrinket(LivingEntity entity, ItemStack stack, boolean doTick) {
         // This method is almost functionally identical to
@@ -50,12 +55,12 @@ public final class ElytraTrinket {
         return true;
     }
 
-    /** Enables flight when wearing an Elytra in a cape trinket slot. */
+    /** Enable flight when wearing an Elytra in a cape trinket slot. */
     protected static void registerFlight() {
         EntityElytraEvents.CUSTOM.register((LivingEntity entity, boolean tickElytra) -> {
             // If an equipped Elytra is usable, fly.
-            for (ItemStack stack : ElytraTrinket.getEquipped(entity)) {
-                if (ElytraTrinket.useElytraTrinket(entity, stack, tickElytra)) {
+            for (ItemStack stack : ServerTools.getEquippedElytraTrinkets(entity)) {
+                if (ServerTools.useElytraTrinket(entity, stack, tickElytra)) {
                     return true;
                 }
             }
@@ -66,12 +71,12 @@ public final class ElytraTrinket {
     }
 
     /**
-     * Gets a list of equipped Elytra trinkets.
+     * Get a list of equipped Elytra trinkets.
      * 
      * @param entity The entity that has the Elytra equipped.
      * @returns A list of equipped Elytra trinkets.
      */
-    public static List<ItemStack> getEquipped(LivingEntity entity) {
+    public static List<ItemStack> getEquippedElytraTrinkets(LivingEntity entity) {
         List<ItemStack> out = new ArrayList<ItemStack>();
 
         // Return an empty list if the trinket component isn't present.
@@ -93,12 +98,13 @@ public final class ElytraTrinket {
     }
 
     /**
-     * Returns whether the given entity is wearing an Elytra in a trinket slot.
+     * Determine whether or not the given entity is wearing an Elytra in a trinket
+     * slot.
      * 
      * @param entity The entity to check.
-     * @returns Whether the entity is wearing an Elytra in a trinket slot.
+     * @returns Whether or not the entity is wearing an Elytra in a trinket slot.
      */
-    public static boolean isEquipped(LivingEntity entity) {
-        return ElytraTrinket.getEquipped(entity).size() > 0;
+    public static boolean isElytraTrinketEquipped(LivingEntity entity) {
+        return ServerTools.getEquippedElytraTrinkets(entity).size() > 0;
     }
 }

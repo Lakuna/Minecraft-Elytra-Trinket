@@ -7,7 +7,6 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.ElytraEntityModel;
@@ -18,6 +17,7 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.SkinTextures;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
@@ -27,13 +27,13 @@ public class ElytraTrinketFeatureRenderer<T extends LivingEntity, M extends Enti
 	// This class is almost functionally identical to `ElytraFeatureRenderer`.
 
 	/** The default Elytra texture. */
-	private static final Identifier defaultTexture = new Identifier("textures/entity/elytra.png");
+	private static final Identifier defaultTexture = Identifier.ofVanilla("textures/entity/elytra.png");
 
 	/** The Elytra entity model. */
 	private final ElytraEntityModel<T> model;
 
 	/**
-	 * Creates an Elytra trinket feature renderer.
+	 * Create an Elytra trinket feature renderer.
 	 * 
 	 * @param context The renderer of the entity.
 	 * @param loader  The model loader to use to load the Elytra model.
@@ -44,7 +44,7 @@ public class ElytraTrinketFeatureRenderer<T extends LivingEntity, M extends Enti
 	}
 
 	/**
-	 * Renders the Elytra trinket when necessary.
+	 * Render the Elytra trinket when necessary.
 	 * 
 	 * @param matrices          The current transformation matrix stack for the
 	 *                          renderer.
@@ -62,7 +62,7 @@ public class ElytraTrinketFeatureRenderer<T extends LivingEntity, M extends Enti
 	public void render(MatrixStack matrices, VertexConsumerProvider vertices, int light, T entity, float limbAngle,
 			float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
 		// Get the stack of the Elytra trinket.
-		List<ItemStack> equippedElytraTrinkets = ElytraTrinket.getEquipped(entity);
+		List<ItemStack> equippedElytraTrinkets = ServerTools.getEquippedElytraTrinkets(entity);
 		if (equippedElytraTrinkets.size() < 1) {
 			return;
 		}
@@ -85,8 +85,8 @@ public class ElytraTrinketFeatureRenderer<T extends LivingEntity, M extends Enti
 		this.getContextModel().copyStateTo(this.model);
 		this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
 		VertexConsumer vertex = ItemRenderer.getArmorGlintConsumer(vertices,
-				RenderLayer.getArmorCutoutNoCull(identifier), false, stack.hasGlint());
-		this.model.render(matrices, vertex, light, OverlayTexture.DEFAULT_UV, 1, 1, 1, 1);
+				RenderLayer.getArmorCutoutNoCull(identifier), stack.hasGlint());
+		this.model.render(matrices, vertex, light, OverlayTexture.DEFAULT_UV);
 		matrices.pop();
 	}
 }
