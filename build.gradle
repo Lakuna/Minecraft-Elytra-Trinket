@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "1.10-SNAPSHOT"
+	id "fabric-loom" version "${loom_version}"
 	id "maven-publish"
 	id "com.modrinth.minotaur" version "2.+"
 }
@@ -20,6 +20,19 @@ repositories {
 	maven {
 		name = "Ladysnake Libs"
 		url = "https://maven.ladysnake.org/releases"
+	}
+
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+
+		filter {
+			includeGroup "maven.modrinth"
+		}
 	}
 }
 
@@ -50,8 +63,8 @@ dependencies {
 	}
 	modLocalRuntime "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}" // Required for testing because Trinkets expects "fabric-api" to be present.
 
-	// Trinkets
-	modImplementation "dev.emi:trinkets:${project.trinkets_api_version}"
+	// Trinkets Canary
+	modImplementation "maven.modrinth:trinkets-canary:${project.trinkets_api_version}"
 
 	// Cardinal Components API
 	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${cca_version}"
@@ -93,7 +106,8 @@ jar {
 
 publishing {
 	publications {
-		mavenJava(MavenPublication) {
+		create("mavenJava", MavenPublication) {
+			artifactId = project.id
 			from components.java
 		}
 	}
@@ -107,7 +121,7 @@ modrinth {
 	additionalFiles = [sourcesJar]
 	dependencies {
 		required.project "fabric-api"
-		required.project "trinkets"
+		required.project "trinkets-canary"
 	}
 	syncBodyFrom = rootProject.file("README.md").text
 }
