@@ -19,6 +19,17 @@ import net.minecraft.world.event.GameEvent;
 /** Server- and client-side methods for Elytra Trinket. */
 public final class ServerTools {
 	/**
+	 * Determine whether or not the given item stack contains a usable Elytra.
+	 * 
+	 * @param stack The item stack.
+	 * @return Whether or not the given item stack contains a usable Elytra.
+	 */
+	private static boolean isUsableElytra(ItemStack stack) {
+		return stack != null && !stack.isEmpty() && !stack.shouldBreak() && !stack.willBreakNextUse()
+				&& stack.isOf(Items.ELYTRA);
+	}
+
+	/**
 	 * Make the given entity fly if the given Elytra is usable.
 	 * 
 	 * @param entity The entity.
@@ -27,7 +38,7 @@ public final class ServerTools {
 	 * @returns Whether or not the entity was made to fly.
 	 */
 	private static boolean useElytraTrinket(LivingEntity entity, ItemStack stack, boolean doTick) {
-		if (stack.isEmpty() || stack.shouldBreak() || !(entity instanceof PlayerEntity playerEntity)) {
+		if (!ServerTools.isUsableElytra(stack) || !(entity instanceof PlayerEntity playerEntity)) {
 			return false;
 		}
 
@@ -81,10 +92,18 @@ public final class ServerTools {
 		// Check each trinket slot with an Elytra.
 		TrinketComponent trinketComponent = optional.get();
 		for (Pair<SlotReference, ItemStack> pair : trinketComponent.getEquipped(Items.ELYTRA)) {
-			// If the Elytra is in a cape slot, add it to the output.
-			if (pair.getLeft().inventory().getSlotType().getName().equals("cape")) {
-				out.add(pair.getRight());
+			// Skip slots that can't hold Elytra.
+			if (!pair.getLeft().inventory().getSlotType().getName().equals("cape")) {
+				continue;
 			}
+
+			// Skip empty stacks.
+			ItemStack stack = pair.getRight();
+			if (stack == null || stack.isEmpty()) {
+				continue;
+			}
+
+			out.add(stack);
 		}
 
 		return out;

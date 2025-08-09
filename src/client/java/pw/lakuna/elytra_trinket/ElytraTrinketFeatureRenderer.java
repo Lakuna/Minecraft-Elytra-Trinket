@@ -3,8 +3,6 @@ package pw.lakuna.elytra_trinket;
 import java.util.List;
 import java.util.Optional;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.equipment.EquipmentModel;
@@ -32,7 +30,6 @@ import net.minecraft.util.Identifier;
  * identical to
  * {@link net.minecraft.client.render.entity.feature.ElytraFeatureRenderer}.
  */
-@Environment(EnvType.CLIENT)
 public class ElytraTrinketFeatureRenderer<S extends BipedEntityRenderState, M extends EntityModel<S>>
 		extends FeatureRenderer<S, M> {
 	/** The Elytra entity model. */
@@ -79,13 +76,13 @@ public class ElytraTrinketFeatureRenderer<S extends BipedEntityRenderState, M ex
 
 		// Get the world.
 		MinecraftClient client = MinecraftClient.getInstance();
-		if (client == null || client.world == null) {
+		if (client.world == null) {
 			return;
 		}
 
 		// Get the entity.
 		Entity entity = client.world.getEntityById(playerState.id);
-		if (entity == null || !(entity instanceof LivingEntity livingEntity)) {
+		if (!(entity instanceof LivingEntity livingEntity)) {
 			return;
 		}
 
@@ -109,15 +106,13 @@ public class ElytraTrinketFeatureRenderer<S extends BipedEntityRenderState, M ex
 
 		// Get the texture of the Elytra.
 		Identifier identifier = null;
-		if (state instanceof PlayerEntityRenderState playerEntity) {
-			Identifier elytraTexture = playerEntity.skinTextures.elytraTexture();
-			if (elytraTexture != null) {
-				identifier = elytraTexture;
-			} else {
-				Identifier capeTexture = playerEntity.skinTextures.capeTexture();
-				if (capeTexture != null) {
-					identifier = capeTexture;
-				}
+		Identifier elytraTexture = playerState.skinTextures.elytraTexture();
+		if (elytraTexture != null) {
+			identifier = elytraTexture;
+		} else if (playerState.capeVisible) {
+			Identifier capeTexture = playerState.skinTextures.capeTexture();
+			if (capeTexture != null) {
+				identifier = capeTexture;
 			}
 		}
 		ElytraEntityModel model = state.baby ? this.babyModel : this.model;
