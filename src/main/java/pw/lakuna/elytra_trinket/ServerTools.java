@@ -16,8 +16,6 @@ import net.minecraft.util.Pair;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
-// TODO: https://github.com/FabricMC/fabric/blob/1.21.8/fabric-entity-events-v1/src/testmod/java/net/fabricmc/fabric/test/entity/event/EntityEventTests.java.
-
 /** Server- and client-side methods for Elytra Trinket. */
 public final class ServerTools {
 	/**
