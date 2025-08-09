@@ -4,13 +4,6 @@ plugins {
 	id "com.modrinth.minotaur" version "2.+"
 }
 
-version = project.version
-group = project.group
-
-base {
-	archivesName = project.id
-}
-
 repositories {
 	maven {
 		name = "TerraformersMC"
@@ -72,16 +65,12 @@ dependencies {
 }
 
 processResources {
-	inputs.property "version", project.version
-
 	filesMatching("*.json") {
 		expand project.properties
 	}
 }
 
 processClientResources {
-	inputs.property "version", project.version
-
 	filesMatching("*.json") {
 		expand project.properties
 	}
