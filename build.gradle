@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "${loom_version}"
+	id "net.fabricmc.fabric-loom-remap" version "${loom_version}"
 	id "maven-publish"
 	id "com.modrinth.minotaur" version "2.+"
 }
@@ -45,7 +45,7 @@ dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 
 	// Yarn
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	mappings loom.officialMojangMappings()
 
 	// Fabric
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
